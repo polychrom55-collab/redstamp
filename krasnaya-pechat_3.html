@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Красная Печать — свадебная полиграфия</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #faf9f7; color: #1a1a1a; min-height: 100vh; }
+    .wrapper { max-width: 680px; margin: 0 auto; padding: 0 16px 60px; }
+
+    .logo { text-align: center; padding: 2.5rem 0 2rem; }
+    .logo h1 { font-size: 24px; font-weight: 500; letter-spacing: 0.1em; color: #1a1a1a; }
+    .logo p { font-size: 13px; color: #888; margin-top: 5px; letter-spacing: 0.05em; }
+
+    .accordion { display: flex; flex-direction: column; gap: 10px; }
+    .acc-item { border: 1px solid #e8e4df; border-radius: 14px; overflow: hidden; background: #fff; }
+    .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; cursor: pointer; user-select: none; transition: background 0.15s; }
+    .acc-header:hover { background: #faf9f7; }
+    .acc-header.open { background: #faf9f7; }
+    .acc-title { display: flex; align-items: center; gap: 14px; }
+    .acc-num { font-size: 12px; color: #bbb; font-weight: 500; width: 18px; }
+    .acc-label { font-size: 16px; font-weight: 500; color: #1a1a1a; }
+    .acc-sub { font-size: 12px; color: #999; margin-top: 2px; }
+    .acc-arrow { font-size: 18px; color: #bbb; transition: transform 0.25s; line-height: 1; }
+    .acc-arrow.open { transform: rotate(180deg); }
+    .acc-body { display: none; border-top: 1px solid #f0ece8; padding: 20px 22px; }
+    .acc-body.open { display: block; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media(max-width: 480px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    .card { border: 1px solid #ede9e4; border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; background: #fff; }
+    .card:hover { border-color: #c8c0b8; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .card-img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+    .card-info { padding: 8px 10px; border-top: 1px solid #f0ece8; }
+    .card-name { font-size: 12px; font-weight: 500; color: #1a1a1a; }
+    .card-price { font-size: 12px; color: #999; margin-top: 2px; }
+
+    .inv1{background:linear-gradient(135deg,#f5ede8,#f0e0d6)}
+    .inv2{background:linear-gradient(135deg,#e8edf5,#d6dff0)}
+    .inv3{background:linear-gradient(135deg,#f5f0e8,#ede0cc)}
+    .inv4{background:linear-gradient(135deg,#ede8f5,#ddd6f0)}
+    .inv5{background:linear-gradient(135deg,#e8f5ee,#d6f0e0)}
+    .inv6{background:linear-gradient(135deg,#f5e8ee,#f0d6dd)}
+    .seat1{background:linear-gradient(135deg,#fdf6f0,#f5e6d8)}
+    .seat2{background:linear-gradient(135deg,#f0fdf6,#d8f5e6)}
+    .seat3{background:linear-gradient(135deg,#f0f0fd,#d8d8f5)}
+    .canvas1{background:linear-gradient(135deg,#fdf0f0,#f5d8d8)}
+    .canvas2{background:linear-gradient(135deg,#f0fdf0,#d8f5d8)}
+    .canvas3{background:linear-gradient(135deg,#fdf0fd,#f5d8f5)}
+    .bon1{background:linear-gradient(135deg,#fdfaf0,#f5eed8)}
+    .bon2{background:linear-gradient(135deg,#f0fafd,#d8eef5)}
+    .bon3{background:linear-gradient(135deg,#fdf0f5,#f5d8e5)}
+
+    .form-section { margin-top: 24px; border: 1px solid #e8e4df; border-radius: 14px; padding: 28px 24px; background: #fff; }
+    .form-title { font-size: 18px; font-weight: 500; margin-bottom: 5px; }
+    .form-sub { font-size: 13px; color: #999; margin-bottom: 22px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 12px; color: #888; margin-bottom: 5px; display: block; }
+    .form-input { width: 100%; padding: 10px 14px; border: 1px solid #e0dbd5; border-radius: 8px; font-size: 14px; background: #faf9f7; color: #1a1a1a; font-family: inherit; outline: none; transition: border-color 0.15s; }
+    .form-input:focus { border-color: #b0a89e; background: #fff; }
+    textarea.form-input { resize: vertical; }
+    .contact-options { display: flex; gap: 8px; margin-bottom: 14px; }
+    .contact-btn { flex: 1; padding: 9px; border: 1px solid #e0dbd5; border-radius: 8px; font-size: 13px; cursor: pointer; background: #faf9f7; color: #888; transition: all 0.15s; font-family: inherit; }
+    .contact-btn.active { border-color: #a09890; background: #fff; color: #1a1a1a; font-weight: 500; }
+    .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin-top: 18px; }
+    .checkbox-row input[type=checkbox] { margin-top: 2px; flex-shrink: 0; cursor: pointer; width: 16px; height: 16px; accent-color: #7a6e68; }
+    .checkbox-label { font-size: 12px; color: #888; line-height: 1.6; }
+    .checkbox-label a { color: #1a1a1a; text-decoration: underline; cursor: pointer; }
+    .submit-btn { width: 100%; margin-top: 16px; padding: 13px; border-radius: 8px; border: 1px solid #d0cac4; background: #f5f1ee; font-size: 15px; cursor: pointer; color: #1a1a1a; font-family: inherit; font-weight: 500; transition: all 0.15s; }
+    .submit-btn:hover:not(:disabled) { background: #ede8e3; }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .error-msg { font-size: 12px; color: #c0392b; margin-top: 10px; display: none; text-align: center; }
+    .success-msg { text-align: center; padding: 24px 0; display: none; }
+    .success-icon { font-size: 36px; margin-bottom: 12px; }
+
+    /* Модалка товара */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+    .overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; width: 360px; max-width: 100%; padding: 24px; position: relative; }
+    .modal-close { position: absolute; top: 14px; right: 16px; font-size: 20px; cursor: pointer; color: #aaa; background: none; border: none; line-height: 1; }
+    .modal-img { height: 160px; border-radius: 10px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 1px solid #f0ece8; }
+    .modal h2 { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+    .modal-desc { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 14px; }
+    .modal-price { font-size: 22px; font-weight: 500; margin-bottom: 18px; }
+    .modal-btn { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #d0cac4; background: #f5f1ee; font-size: 14px; cursor: pointer; font-family: inherit; font-weight: 500; }
+    .modal-btn:hover { background: #ede8e3; }
+
+    /* Модалка ПД */
+    .pd-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+    .pd-overlay.open { display: flex; }
+    .pd-box { background: #fff; border-radius: 16px; width: 560px; max-width: 100%; max-height: 82vh; display: flex; flex-direction: column; }
+    .pd-header { padding: 20px 24px 16px; border-bottom: 1px solid #f0ece8; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .pd-header h2 { font-size: 15px; font-weight: 500; }
+    .pd-close { font-size: 20px; cursor: pointer; color: #aaa; background: none; border: none; }
+    .pd-body { padding: 20px 24px; overflow-y: auto; }
+    .pd-body h3 { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 18px 0 5px; }
+    .pd-body h3:first-child { margin-top: 0; }
+    .pd-body p, .pd-body li { font-size: 13px; color: #666; line-height: 1.7; }
+    .pd-body ul { padding-left: 18px; }
+    .pd-body ul li { margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="logo">
+    <h1>КРАСНАЯ ПЕЧАТЬ</h1>
+    <p>свадебная полиграфия</p>
+  </div>
+
+  <div class="accordion">
+
+    <div class="acc-item" id="acc1">
+      <div class="acc-header" onclick="toggle('acc1')">
+        <div class="acc-title"><span class="acc-num">01</span><div><div class="acc-label">Свадебные пригласительные</div><div class="acc-sub">от 80 ₽ / шт</div></div></div>
+        <span class="acc-arrow" id="arr-acc1">&#8964;</span>
+      </div>
+      <div class="acc-body" id="body-acc1">
+        <div class="grid">
+          <div class="card" onclick="openModal('Нежная классика','Элегантный дизайн с золотым тиснением и цветочными акцентами. Плотная бумага 300г/м².','от 90 ₽ / шт','inv1')"><div class="card-img inv1">✉</div><div class="card-info"><div class="card-name">Нежная классика</div><div class="card-price">от 90 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Морская лазурь','Лаконичный синий дизайн с акварельными разводами. Минималистичный стиль.','от 85 ₽ / шт','inv2')"><div class="card-img inv2">✉</div><div class="card-info"><div class="card-name">Морская лазурь</div><div class="card-price">от 85 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Золотой закат','Тёплые оттенки с фольгой, вензелями и каллиграфией. Роскошное оформление.','от 120 ₽ / шт','inv3')"><div class="card-img inv3">✉</div><div class="card-info"><div class="card-name">Золотой закат</div><div class="card-price">от 120 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Сиреневый сад','Акварельная флористика в фиолетово-лиловой гамме. Романтичный образ.','от 80 ₽ / шт','inv4')"><div class="card-img inv4">✉</div><div class="card-info"><div class="card-name">Сиреневый сад</div><div class="card-price">от 80 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Весенний луг','Зелёная ботаника, свежий и лёгкий дизайн. Идеально для outdoor-свадеб.','от 80 ₽ / шт','inv5')"><div class="card-img inv5">✉</div><div class="card-info"><div class="card-name">Весенний луг</div><div class="card-price">от 80 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Рассвет','Розово-пудровая гамма. Нежный принт в акварельной технике.','от 90 ₽ / шт','inv6')"><div class="card-img inv6">✉</div><div class="card-info"><div class="card-name">Рассвет</div><div class="card-price">от 90 ₽ / шт</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc2">
+      <div class="acc-header" onclick="toggle('acc2')">
+        <div class="acc-title"><span class="acc-num">02</span><div><div class="acc-label">Карточки рассадки</div><div class="acc-sub">от 40 ₽ / шт</div></div></div>
+        <span class="acc-arrow" id="arr-acc2">&#8964;</span>
+      </div>
+      <div class="acc-body" id="body-acc2">
+        <div class="grid">
+          <div class="card" onclick="openModal('Классика','Карточка со стола гостя. Персонализация имени и номера стола.','от 40 ₽ / шт','seat1')"><div class="card-img seat1">🪑</div><div class="card-info"><div class="card-name">Классика</div><div class="card-price">от 40 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Зелень','Ботанические мотивы. Можно в форме листочка или прямоугольника.','от 45 ₽ / шт','seat2')"><div class="card-img seat2">🪑</div><div class="card-info"><div class="card-name">Зелень</div><div class="card-price">от 45 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Небо','Нежно-голубой дизайн с тиснением. Матовая ламинация.','от 50 ₽ / шт','seat3')"><div class="card-img seat3">🪑</div><div class="card-info"><div class="card-name">Небо</div><div class="card-price">от 50 ₽ / шт</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc3">
+      <div class="acc-header" onclick="toggle('acc3')">
+        <div class="acc-title"><span class="acc-num">03</span><div><div class="acc-label">Холсты из вашей фотографии</div><div class="acc-sub">от 1 200 ₽</div></div></div>
+        <span class="acc-arrow" id="arr-acc3">&#8964;</span>
+      </div>
+      <div class="acc-body" id="body-acc3">
+        <div class="grid">
+          <div class="card" onclick="openModal('30 × 40 см','Классический портретный формат. Печать на холсте с подрамником.','от 1 200 ₽','canvas1')"><div class="card-img canvas1">🖼</div><div class="card-info"><div class="card-name">30 × 40 см</div><div class="card-price">от 1 200 ₽</div></div></div>
+          <div class="card" onclick="openModal('40 × 60 см','Увеличенный формат. Отлично смотрится над кроватью или в гостиной.','от 1 800 ₽','canvas2')"><div class="card-img canvas2">🖼</div><div class="card-info"><div class="card-name">40 × 60 см</div><div class="card-price">от 1 800 ₽</div></div></div>
+          <div class="card" onclick="openModal('Диптих','Два холста 20 × 30 см. Единая композиция, разделённая на части.','от 2 200 ₽','canvas3')"><div class="card-img canvas3">🖼</div><div class="card-info"><div class="card-name">Диптих</div><div class="card-price">от 2 200 ₽</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc4">
+      <div class="acc-header" onclick="toggle('acc4')">
+        <div class="acc-title"><span class="acc-num">04</span><div><div class="acc-label">Бонбоньерки</div><div class="acc-sub">от 60 ₽ / шт</div></div></div>
+        <span class="acc-arrow" id="arr-acc4">&#8964;</span>
+      </div>
+      <div class="acc-body" id="body-acc4">
+        <div class="grid">
+          <div class="card" onclick="openModal('Крафт-коробочка','Экологичная крафтовая упаковка с персональной биркой.','от 60 ₽ / шт','bon1')"><div class="card-img bon1">🎁</div><div class="card-info"><div class="card-name">Крафт-коробочка</div><div class="card-price">от 60 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Атласный мешочек','Мешочек из атласа с открыткой и лентой. Нежный и изящный.','от 80 ₽ / шт','bon2')"><div class="card-img bon2">🎁</div><div class="card-info"><div class="card-name">Атласный мешочек</div><div class="card-price">от 80 ₽ / шт</div></div></div>
+          <div class="card" onclick="openModal('Тубус с лентой','Элегантный цилиндрический тубус. Подходит для макаронс и конфет.','от 95 ₽ / шт','bon3')"><div class="card-img bon3">🎁</div><div class="card-info"><div class="card-name">Тубус с лентой</div><div class="card-price">от 95 ₽ / шт</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-section" id="order-form">
+    <div class="form-title">Оставить заявку</div>
+    <div class="form-sub">Напишем в течение нескольких часов и обсудим детали</div>
+
+    <div id="form-content">
+      <div class="form-group">
+        <label class="form-label">Ваше имя</label>
+        <input class="form-input" type="text" id="f-name" placeholder="Анна">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Как с вами связаться</label>
+        <div class="contact-options">
+          <button class="contact-btn active" onclick="setContact('tg', this)">Telegram</button>
+          <button class="contact-btn" onclick="setContact('max', this)">МАКС</button>
+          <button class="contact-btn" onclick="setContact('ph', this)">Телефон</button>
+        </div>
+        <input class="form-input" type="text" id="f-contact" placeholder="@username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Дата свадьбы (примерно)</label>
+        <input class="form-input" type="text" id="f-date" placeholder="Июнь 2025">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Комментарий (необязательно)</label>
+        <textarea class="form-input" id="f-comment" rows="3" placeholder="Количество гостей, пожелания по стилю..."></textarea>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="pd-check" onchange="updateBtn()">
+        <label class="checkbox-label" for="pd-check">Я согласен(а) с <a onclick="openPD()">условиями обработки персональных данных</a></label>
+      </div>
+      <div class="error-msg" id="error-msg">Не удалось отправить заявку. Попробуйте ещё раз.</div>
+      <button class="submit-btn" id="submit-btn" disabled onclick="submitForm()">Отправить заявку</button>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+      <div class="success-icon">✓</div>
+      <p style="font-size:16px;font-weight:500;margin-bottom:6px;">Заявка отправлена!</p>
+      <p style="font-size:13px;color:#999;">Мы свяжемся с вами в ближайшее время</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Модалка товара -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    <div class="modal-img" id="m-img"></div>
+    <h2 id="m-title"></h2>
+    <div class="modal-desc" id="m-desc"></div>
+    <div class="modal-price" id="m-price"></div>
+    <button class="modal-btn" onclick="closeModal();document.getElementById('order-form').scrollIntoView({behavior:'smooth'})">Оставить заявку на этот дизайн</button>
+  </div>
+</div>
+
+<!-- Модалка политики -->
+<div class="pd-overlay" id="pd-modal">
+  <div class="pd-box">
+    <div class="pd-header">
+      <h2>Политика обработки персональных данных</h2>
+      <button class="pd-close" onclick="closePD()">&#10005;</button>
+    </div>
+    <div class="pd-body">
+      <h3>1. Общие положения</h3>
+      <p>Настоящая политика составлена в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных оператором данного сайта (далее — Оператор).</p>
+      <h3>2. Какие данные мы собираем</h3>
+      <ul>
+        <li>Имя пользователя</li>
+        <li>Контактные данные: номер телефона, имя пользователя в Telegram или МАКС</li>
+        <li>Иная информация, добровольно указанная в комментарии</li>
+      </ul>
+      <h3>3. Цели обработки</h3>
+      <ul>
+        <li>Обработка и исполнение заявок</li>
+        <li>Консультирование по услугам и ценам</li>
+        <li>Связь для уточнения деталей заказа</li>
+      </ul>
+      <h3>4. Правовые основания</h3>
+      <p>Обработка осуществляется на основании согласия субъекта персональных данных, выраженного путём проставления отметки в форме на сайте.</p>
+      <h3>5. Срок хранения</h3>
+      <p>Данные хранятся с момента дачи согласия до его отзыва или до достижения целей обработки. После этого данные уничтожаются в течение 30 календарных дней.</p>
+      <h3>6. Передача третьим лицам</h3>
+      <p>Оператор не передаёт персональные данные третьим лицам, за исключением случаев, предусмотренных законодательством РФ. Данные не продаются и не используются в рекламных целях.</p>
+      <h3>7. Защита данных</h3>
+      <p>Оператор принимает необходимые технические и организационные меры для защиты данных от неправомерного доступа и распространения.</p>
+      <h3>8. Права пользователя</h3>
+      <ul>
+        <li>Отозвать согласие в любой момент</li>
+        <li>Запросить сведения об обрабатываемых данных</li>
+        <li>Потребовать исправления или уничтожения своих данных</li>
+      </ul>
+      <p style="margin-top:8px;">Для реализации прав обратитесь через форму на сайте или напрямую в мессенджере.</p>
+      <h3>9. Актуальность политики</h3>
+      <p>Политика действует с момента размещения на сайте. Оператор вправе вносить изменения с уведомлением пользователей.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TG_TOKEN = '8621586893:AAEDvHWz2zPBYxi7qCD63ZI6_2txPBHe-6g';
+  const TG_CHAT  = '8143913122';
+  let contactType = 'tg';
+
+  function toggle(id) {
+    const body = document.getElementById('body-' + id);
+    const arr  = document.getElementById('arr-' + id);
+    const header = document.querySelector('#' + id + ' .acc-header');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.acc-arrow').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.acc-header').forEach(h => h.classList.remove('open'));
+    if (!isOpen) { body.classList.add('open'); arr.classList.add('open'); header.classList.add('open'); }
+  }
+
+  function openModal(title, desc, price, imgClass) {
+    document.getElementById('m-title').textContent = title;
+    document.getElementById('m-desc').textContent = desc;
+    document.getElementById('m-price').textContent = price;
+    const img = document.getElementById('m-img');
+    img.className = 'modal-img ' + imgClass;
+    img.innerHTML = '';
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  document.getElementById('modal').addEventListener('click', function(e) { if(e.target===this) closeModal(); });
+
+  function setContact(type, btn) {
+    contactType = type;
+    document.querySelectorAll('.contact-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const inp = document.getElementById('f-contact');
+    inp.placeholder = type === 'tg' ? '@username' : '+7 999 000 00 00';
+  }
+
+  function updateBtn() {
+    document.getElementById('submit-btn').disabled = !document.getElementById('pd-check').checked;
+  }
+
+  async function submitForm() {
+    const name    = document.getElementById('f-name').value.trim();
+    const contact = document.getElementById('f-contact').value.trim();
+    const date    = document.getElementById('f-date').value.trim();
+    const comment = document.getElementById('f-comment').value.trim();
+    const messengerLabel = contactType === 'tg' ? 'Telegram' : contactType === 'max' ? 'МАКС' : 'Телефон';
+
+    const text = [
+      '📋 *Новая заявка с сайта*',
+      '',
+      `👤 *Имя:* ${name || '—'}`,
+      `📱 *Способ связи:* ${messengerLabel}`,
+      `📞 *Контакт:* ${contact || '—'}`,
+      `📅 *Дата свадьбы:* ${date || '—'}`,
+      comment ? `💬 *Комментарий:* ${comment}` : ''
+    ].filter(Boolean).join('\n');
+
+    const btn = document.getElementById('submit-btn');
+    const errEl = document.getElementById('error-msg');
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+    errEl.style.display = 'none';
+
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'Markdown' })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        document.getElementById('form-content').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        throw new Error(data.description);
+      }
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+      errEl.style.display = 'block';
+      errEl.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз.';
+    }
+  }
+
+  function openPD() { document.getElementById('pd-modal').classList.add('open'); }
+  function closePD() { document.getElementById('pd-modal').classList.remove('open'); }
+  document.getElementById('pd-modal').addEventListener('click', function(e) { if(e.target===this) closePD(); });
+</script>
+</body>
+</html>
